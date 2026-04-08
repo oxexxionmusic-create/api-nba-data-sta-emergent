@@ -1,0 +1,62 @@
+{
+  "theme": "dark",
+  "archetype": "4 (Swiss & High-Contrast)",
+  "design_philosophy": "Clean dark appearance ('oscuro limpio'). Focus on practical, dense, yet highly legible data tables. Navigation must be simple, providing quick access to API Documentation (Swagger-style), Teams, Players, Injuries, and ATS statistics.",
+  "colors": {
+    "background": "#09090B",
+    "surface": "#18181B",
+    "surface_hover": "#27272A",
+    "border": "#27272A",
+    "primary": "#3B82F6",
+    "primary_hover": "#2563EB",
+    "text_primary": "#FAFAFA",
+    "text_secondary": "#A1A1AA",
+    "accent": "#F59E0B",
+    "danger": "#EF4444"
+  },
+  "typography": {
+    "font_families": {
+      "heading": "Chivo, sans-serif",
+      "body": "IBM Plex Sans, sans-serif",
+      "mono": "IBM Plex Mono, monospace"
+    },
+    "hierarchy": {
+      "h1": "text-3xl sm:text-4xl font-bold tracking-tight text-zinc-50",
+      "h2": "text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-100",
+      "h3": "text-xl font-semibold text-zinc-200",
+      "body": "text-sm text-zinc-300",
+      "mono_small": "text-xs font-mono text-zinc-400",
+      "table_header": "text-xs font-bold uppercase tracking-[0.1em] text-zinc-500"
+    }
+  },
+  "layout_and_spacing": {
+    "app_layout": "Sidebar navigation (left) + Main content area (right). Maximize width for data tables.",
+    "container": "w-full max-w-[1600px] mx-auto p-4 sm:p-6 lg:p-8",
+    "sidebar": "w-64 border-r border-zinc-800 bg-zinc-950/50 backdrop-blur-xl hidden md:flex flex-col",
+    "table_density": "py-2 px-3 text-sm",
+    "card_padding": "p-6"
+  },
+  "component_guidelines": {
+    "api_key_display": "Prominent placement at the top of the documentation or dashboard. Terminal-style block (bg-black border border-zinc-800) with a prominent 'Copy' button. Use lucide-react 'Copy'.",
+    "documentation": "Swagger-style layout. Clear visual distinction between endpoints (GET vs POST). Use method badges (e.g., green for GET, blue for POST). Code snippets in IBM Plex Mono.",
+    "tables": "Extremely dense but legible. Use alternating row colors (bg-zinc-900 / bg-zinc-950) or 1px border-b border-zinc-800. Sticky headers. Sticky first column for Player/Team names.",
+    "filters": "Horizontal bar above tables. Use Shadcn Select and Inputs. Keep them compact.",
+    "admin_login": "Simple modal or dedicated route. Requires password input to reveal the 'Manual Update' action.",
+    "buttons": "Flat design. Primary CTA in solid #3B82F6, text white. Secondary in bg-zinc-900 border border-zinc-800 text-zinc-300."
+  },
+  "motion_and_interactions": {
+    "hover_states": "Data rows: bg-zinc-800/50 on hover. Buttons: slight opacity change or brightness increase.",
+    "transitions": "transition-all duration-200"
+  },
+  "testing_attributes": "Every interactive element (Copy button, filters, row items, nav links) MUST include a 'data-testid' attribute in kebab-case.",
+  "instructions_to_main_agent": [
+    "Build the frontend using React (.js/.jsx files only, no TypeScript).",
+    "Use Tailwind CSS for styling and Shadcn UI for components.",
+    "Set up a layout with a fixed sidebar and a scrollable main area.",
+    "Prioritize the Swagger-style API documentation view as the default landing view, prominently displaying the global API Key.",
+    "Create dedicated views for Teams, Players, Injuries, and ATS, utilizing dense Shadcn Tables with filtering capabilities.",
+    "Include a hidden/protected Admin section to trigger the manual data scraping update via the POST /funcion endpoint.",
+    "Ensure the entire application adheres to the 'oscuro limpio' (clean dark) aesthetic, utilizing the provided zinc and primary blue color palette."
+  ],
+  "image_urls": {}
+}
