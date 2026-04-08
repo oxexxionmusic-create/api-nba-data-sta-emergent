@@ -3,7 +3,7 @@ import { Copy } from "lucide-react";
 
 
 export const ApiKeyPanel = ({ apiKey, lastRefreshAt }) => {
-  const [copied, setCopied] = useState(false);
+  const [copyState, setCopyState] = useState("idle");
 
   const refreshText = useMemo(() => {
     if (!lastRefreshAt) {
@@ -14,9 +14,15 @@ export const ApiKeyPanel = ({ apiKey, lastRefreshAt }) => {
 
   const handleCopy = async () => {
     if (!apiKey) return;
-    await navigator.clipboard.writeText(apiKey);
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 1500);
+    try {
+      await navigator.clipboard.writeText(apiKey);
+      setCopyState("success");
+      window.setTimeout(() => setCopyState("idle"), 1500);
+    } catch (error) {
+      window.prompt("Copia la API key manualmente:", apiKey);
+      setCopyState("manual");
+      window.setTimeout(() => setCopyState("idle"), 2400);
+    }
   };
 
   return (
@@ -41,7 +47,7 @@ export const ApiKeyPanel = ({ apiKey, lastRefreshAt }) => {
           type="button"
         >
           <Copy className="h-4 w-4" />
-          {copied ? "Copiada" : "Copiar clave"}
+          {copyState === "success" ? "Copiada" : copyState === "manual" ? "Copia manual" : "Copiar clave"}
         </button>
       </div>
 
@@ -58,6 +64,11 @@ export const ApiKeyPanel = ({ apiKey, lastRefreshAt }) => {
         <span className="rounded-full border border-zinc-800 bg-zinc-900 px-3 py-1.5" data-testid="api-key-last-refresh-badge">
           Última actualización: {refreshText}
         </span>
+        {copyState === "manual" ? (
+          <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1.5 text-amber-200" data-testid="api-key-manual-copy-badge">
+            Permiso denegado: usa copia manual.
+          </span>
+        ) : null}
       </div>
     </section>
   );
