@@ -2,27 +2,37 @@ from dotenv import load_dotenv
 from pathlib import Path
 import os
 
-
+# Carga .env local si existe (opcional)
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / ".env")
 
+# Función segura para leer variables de entorno
+def get_env(key: str, default=None, required=True):
+    value = os.environ.get(key, default)
+    if required and value is None:
+        raise ValueError(f"❌ Variable de entorno requerida no encontrada: {key}")
+    return value
 
-MONGO_URL = os.environ["MONGO_URL"]
-DB_NAME = os.environ["DB_NAME"]
-CORS_ORIGINS = os.environ["CORS_ORIGINS"].split(",")
-API_GLOBAL_KEY = os.environ["API_GLOBAL_KEY"]
-ADMIN_EMAIL = os.environ["ADMIN_EMAIL"]
-ADMIN_PASSWORD = os.environ["ADMIN_PASSWORD"]
-AUTO_REFRESH_HOURS = int(os.environ["AUTO_REFRESH_HOURS"])
-REQUEST_TIMEOUT = int(os.environ["REQUEST_TIMEOUT"])
+# ====================
+# Variables obligatorias
+# ====================
+MONGO_URL = get_env("MONGO_URL")
+DB_NAME = get_env("DB_NAME")
+CORS_ORIGINS = get_env("CORS_ORIGINS", "*", required=False).split(",")
+API_GLOBAL_KEY = get_env("API_GLOBAL_KEY")
+ADMIN_EMAIL = get_env("ADMIN_EMAIL")
+ADMIN_PASSWORD = get_env("ADMIN_PASSWORD")
+AUTO_REFRESH_HOURS = int(get_env("AUTO_REFRESH_HOURS", "24"))
+REQUEST_TIMEOUT = int(get_env("REQUEST_TIMEOUT", "30"))
 
-
+# ====================
+# Configuraciones fijas (no necesitan variable)
+# ====================
 APP_TITLE = "Sportox NBA Data API"
 APP_DESCRIPTION = (
     "API pública para consultar datos NBA ya cacheados en MongoDB: equipos, "
     "jugadores, lesiones, lineups y ATS."
 )
-
 
 TEAM_STAT_SOURCES = [
     {"metric_key": "points_per_game", "metric_label": "Points per Game", "url": "https://www.teamrankings.com/nba/stat/points-per-game"},
@@ -47,7 +57,6 @@ TEAM_STAT_SOURCES = [
     {"metric_key": "opponent_average_biggest_lead", "metric_label": "Opponent Average Biggest Lead", "url": "https://www.teamrankings.com/nba/stat/opponent-average-biggest-lead"},
 ]
 
-
 PLAYER_STAT_SOURCES = [
     {"metric_key": "points", "metric_label": "Points", "url": "https://www.teamrankings.com/nba/player-stat/points"},
     {"metric_key": "assists", "metric_label": "Assists", "url": "https://www.teamrankings.com/nba/player-stat/assists"},
@@ -57,7 +66,6 @@ PLAYER_STAT_SOURCES = [
     {"metric_key": "blocks", "metric_label": "Blocks", "url": "https://www.teamrankings.com/nba/player-stat/blocks"},
     {"metric_key": "personal_fouls", "metric_label": "Personal Fouls", "url": "https://www.teamrankings.com/nba/player-stat/fouls-personal"},
 ]
-
 
 ATS_TEAM_SLUGS = {
     "Atlanta Hawks": "atlanta-hawks",
@@ -92,7 +100,6 @@ ATS_TEAM_SLUGS = {
     "Washington Wizards": "washington-wizards",
 }
 
-
 ATS_SOURCES = [
     {
         "team": team_name,
@@ -101,10 +108,8 @@ ATS_SOURCES = [
     for team_name, slug in ATS_TEAM_SLUGS.items()
 ]
 
-
 INJURIES_URL = "https://espndeportes.espn.com/basquetbol/nba/lesiones"
 LINEUPS_URL_TEMPLATE = "https://stats.nba.com/js/data/leaders/00_daily_lineups_{date_key}.json"
-
 
 DATASET_LABELS = {
     "teams": "Estadísticas de equipos",
