@@ -1,26 +1,24 @@
 services:
-  # Backend API
   - type: web
-    name: mi-backend
-    runtime: python
-    rootDir: backend
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    name: sportox-backend
+    runtime: image
+    repo: https://github.com/TU_USUARIO/TU_REPOSITORIO
+    plan: free
+    dockerfilePath: ./Dockerfile
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.11.0
-      - key: MONGODB_URL
+      - key: MONGO_URL
         sync: false
-      - key: OPENAI_API_KEY
+      - key: DB_NAME
         sync: false
-      # ... todas tus variables de entorno
-
-  # Frontend estático
-  - type: static
-    name: mi-frontend
-    rootDir: frontend
-    buildCommand: npm install && npm run build
-    publishPath: build
-    envVars:
-      - key: REACT_APP_API_URL
-        value: https://mi-backend.onrender.com   # cámbialo después de desplegar
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: API_GLOBAL_KEY
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: AUTO_REFRESH_HOURS
+        value: "24"
+      - key: REQUEST_TIMEOUT
+        value: "30"
