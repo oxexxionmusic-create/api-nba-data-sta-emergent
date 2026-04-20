@@ -16,12 +16,15 @@ def get_env(key: str, default=None, required=True):
 # ====================
 # Variables obligatorias
 # ====================
+# Se han corregido los espacios dentro de las comillas (ej: "MONGO_URL " -> "MONGO_URL")
 MONGO_URL = get_env("MONGO_URL")
 DB_NAME = get_env("DB_NAME")
 CORS_ORIGINS = get_env("CORS_ORIGINS", "*", required=False).split(",")
 API_GLOBAL_KEY = get_env("API_GLOBAL_KEY")
 ADMIN_EMAIL = get_env("ADMIN_EMAIL")
 ADMIN_PASSWORD = get_env("ADMIN_PASSWORD")
+
+# Variables con valores por defecto (limpiadas de espacios extra)
 AUTO_REFRESH_HOURS = int(get_env("AUTO_REFRESH_HOURS", "24"))
 REQUEST_TIMEOUT = int(get_env("REQUEST_TIMEOUT", "30"))
 
